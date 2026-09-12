@@ -148,6 +148,12 @@
       .modal{padding:0}.modal-panel{width:100%;height:100%;max-height:none;border-radius:0;border:0}.modal-title span{max-width:170px}
       .mobile-scrollbar{display:block;position:fixed;right:2px;top:6px;bottom:6px;width:3px;z-index:9999;pointer-events:none}
       .mobile-scroll-thumb{position:absolute;right:0;top:0;width:3px;min-height:28px;border-radius:999px;background:linear-gradient(180deg,var(--green),var(--green-2));box-shadow:0 0 8px rgba(93,255,149,.35);opacity:.88;will-change:transform,height}
+      .preview.mobile-lightweight{background:radial-gradient(520px 180px at 15% 0%,rgba(93,255,149,.10),transparent 55%),linear-gradient(135deg,#0a100c,#07100a 60%,#09130c)}
+      .preview.mobile-lightweight .preview-frame{display:none}
+      .preview.mobile-lightweight .preview-loading{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px;padding:22px;background:transparent;color:#b6c1b9;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+      .preview.mobile-lightweight .preview-loading:before{display:none}
+      .preview.mobile-lightweight .preview-loading strong{font-size:22px;line-height:1.05;letter-spacing:-.035em;text-transform:none;color:#f5f7f5}
+      .preview.mobile-lightweight .preview-loading span{color:#738078;text-transform:none;letter-spacing:0;font-size:12px}
     }
   </style>
 </head>
@@ -323,11 +329,12 @@ function filtered(){
 function render(){
   if(observer)observer.disconnect();
   const list=filtered();
+  const isMobile=window.matchMedia('(max-width: 680px)').matches;
   resultCount.textContent=`${list.length} project${list.length===1?'':'s'}`;
   empty.style.display=list.length?'none':'block';
   grid.innerHTML=list.map(p=>`<article class="card">
-    <div class="preview" data-preview="${p.url}" data-name="${p.name}">
-      <div class="preview-loading">Loading live preview</div>
+    <div class="preview ${isMobile?'mobile-lightweight':''}" data-preview="${p.url}" data-name="${p.name}">
+      <div class="preview-loading">${isMobile?`<strong>${p.name}</strong><span>Tap to load live preview</span>`:'Loading live preview'}</div>
       <iframe class="preview-frame" title="${p.name} preview" loading="lazy" tabindex="-1"></iframe>
       <span class="hover-open">View project ↗</span>
     </div>
@@ -341,20 +348,24 @@ function render(){
     </div>
   </article>`).join('');
 
-  observer=new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        const wrap=entry.target;
-        const frame=wrap.querySelector('.preview-frame');
-        if(frame&&!frame.src){
-          frame.src=wrap.dataset.preview;
-          frame.addEventListener('load',()=>frame.classList.add('ready'),{once:true});
+  // Desktop/tablet keeps the live thumbnail behavior. On phones, no project iframe
+  // is loaded until the user explicitly opens Preview, preventing Safari memory crashes.
+  if(!isMobile){
+    observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          const wrap=entry.target;
+          const frame=wrap.querySelector('.preview-frame');
+          if(frame&&!frame.src){
+            frame.src=wrap.dataset.preview;
+            frame.addEventListener('load',()=>frame.classList.add('ready'),{once:true});
+          }
+          observer.unobserve(wrap);
         }
-        observer.unobserve(wrap);
-      }
-    });
-  },{rootMargin:'350px 0px'});
-  grid.querySelectorAll('.preview').forEach(el=>observer.observe(el));
+      });
+    },{rootMargin:'350px 0px'});
+    grid.querySelectorAll('.preview').forEach(el=>observer.observe(el));
+  }
 }
 
 function openPreview(url,name){
@@ -401,6 +412,13 @@ window.addEventListener('scroll', updateMobileScrollThumb, {passive:true});
 window.addEventListener('resize', updateMobileScrollThumb);
 window.addEventListener('load', updateMobileScrollThumb);
 requestAnimationFrame(updateMobileScrollThumb);
+
+const mobilePreviewQuery=window.matchMedia('(max-width: 680px)');
+if(mobilePreviewQuery.addEventListener){
+  mobilePreviewQuery.addEventListener('change',render);
+}else if(mobilePreviewQuery.addListener){
+  mobilePreviewQuery.addListener(render);
+}
 </script>
 </body>
 </html>
