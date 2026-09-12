@@ -33,9 +33,14 @@
     ::selection{background:rgba(93,255,149,.28);color:white}
     ::-webkit-scrollbar{width:10px;height:10px}
     ::-webkit-scrollbar-track{background:#050806}
-    ::-webkit-scrollbar-thumb{background:#1c3224;border:2px solid #050806;border-radius:999px}
-    ::-webkit-scrollbar-thumb:hover{background:#285036}
+    ::-webkit-scrollbar-thumb{background:#2bd66b;border:2px solid #050806;border-radius:999px}
+    ::-webkit-scrollbar-thumb:hover{background:#5dff95}
     button,input,select{font:inherit}
+
+    /* Normal arrow cursor, recolored to match the green scrollbar thumb */
+    body, a, button, input, select, .preview, .chip, .btn, .sort{
+      cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M5 3.5v18.7l4.85-4.65 3.08 6.7 3.18-1.46-3.04-6.62 6.72-.15L5 3.5Z' fill='%232bd66b' stroke='%23030805' stroke-width='1.35' stroke-linejoin='round'/%3E%3C/svg%3E") 5 4, auto;
+    }
     a{color:inherit}
     .shell{width:min(1480px,calc(100% - 42px));margin:0 auto}
     .topbar{position:sticky;top:0;z-index:30;background:rgba(5,8,6,.80);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06)}
@@ -216,45 +221,45 @@ const projects = [
   {name:'F.O. Towing',slug:'f-o-towing',industry:'Towing'},
   {name:'Abi Towing',slug:'abi-towing',industry:'Towing'},
   {name:'M&L Towing',slug:'m-l-towing',industry:'Towing'},
-  {name:"Arlene's Party Creation",slug:'arlenes-party-creation',industry:'Events'},
+  {name:"Arlene's Party Creation",slug:'arlenes-party-creation',industry:'Events',type:'Landing Page'},
   {name:'AureVeil',slug:'aure-veil',industry:'Creative / Marketplace'},
-  {name:'ZAH Junk Cars',slug:'zah-junkcars',industry:'Automotive'},
+  {name:'ZAH Junk Cars',slug:'zah-junkcars',industry:'Automotive',type:'Landing Page'},
   {name:'DJ Towing',slug:'dj-towing',industry:'Towing'},
   {name:'Virtual Agent AI',slug:'virtual-agent-ai',industry:'AI / SaaS'},
   {name:'Missed Revenue Calculator',slug:'missed-revenue-calculator-ten',industry:'AI / SaaS',type:'Landing Page'},
   {name:'CCS 247',slug:'ccs-247',industry:'Other'},
-  {name:'Drea Salazar',slug:'drea-salazar',industry:'Real Estate'},
-  {name:'Jean Samuel',slug:'jeansamuel',industry:'Real Estate'},
+  {name:'Drea Salazar',slug:'drea-salazar',industry:'Real Estate',type:'Landing Page'},
+  {name:'Jean Samuel',slug:'jeansamuel',industry:'Real Estate',type:'Landing Page'},
   {name:'Heritage Peak Roofing',slug:'heritage-peak-roofing-cx6e',industry:'Roofing'},
   {name:'DK Plumbing',slug:'dkplumbing-gray',industry:'Plumbing'},
-  {name:'Mike Davis',slug:'mike-davis',industry:'Mortgage'},
-  {name:"Greg's Realtor Site",slug:'gregs-realtor-site',industry:'Real Estate'},
-  {name:"Miguel's Tree Service",slug:'miguels-tree-service',industry:'Tree Service'},
-  {name:'C&D Auto Repair',slug:'c-d-auto-repair',industry:'Automotive'},
-  {name:'Fliks Towing',slug:'fliks-towing',industry:'Towing'},
-  {name:'XL Towing',slug:'xl-towing',industry:'Towing'},
-  {name:"Hall's Towing",slug:'halls-towing',industry:'Towing'},
-  {name:'1st Call Towing',slug:'1st-call-towing',industry:'Towing'},
-  {name:'Haul Craft Towing',slug:'haul-craft-towing',industry:'Towing'},
-  {name:'Holy 7 Towing',slug:'holy-7-towing',industry:'Towing'},
-  {name:'Trend Collision Center',slug:'trend-collsion-center',industry:'Automotive'},
-  {name:'Eastwood 6.0',slug:'eastwood6-0',industry:'Towing'},
-  {name:"Elijah's Trailer Rentals",slug:'elijah-s-trailer-rentals',industry:'Transportation'},
-  {name:'Roadside Pro Towing',slug:'roadside-pro-towing',industry:'Towing'},
-  {name:'Ava Towing',slug:'ava-towing',industry:'Towing'},
+  {name:'Mike Davis',slug:'mike-davis',industry:'Mortgage',type:'Landing Page'},
+  {name:"Greg's Realtor Site",slug:'gregs-realtor-site',industry:'Real Estate',type:'Landing Page'},
+  {name:"Miguel's Tree Service",slug:'miguels-tree-service',industry:'Tree Service',type:'Landing Page'},
+  {name:'C&D Auto Repair',slug:'c-d-auto-repair',industry:'Automotive',type:'Landing Page'},
+  {name:'Fliks Towing',slug:'fliks-towing',industry:'Towing',type:'Landing Page'},
+  {name:'XL Towing',slug:'xl-towing',industry:'Towing',type:'Landing Page'},
+  {name:"Hall's Towing",slug:'halls-towing',industry:'Towing',type:'Landing Page'},
+  {name:'1st Call Towing',slug:'1st-call-towing',industry:'Towing',type:'Landing Page'},
+  {name:'Haul Craft Towing',slug:'haul-craft-towing',industry:'Towing',type:'Landing Page'},
+  {name:'Holy 7 Towing',slug:'holy-7-towing',industry:'Towing',type:'Landing Page'},
+  {name:'Trend Collision Center',slug:'trend-collsion-center',industry:'Automotive',type:'Landing Page'},
+  {name:'Eastwood 6.0',slug:'eastwood6-0',industry:'Towing',type:'Landing Page'},
+  {name:"Elijah's Trailer Rentals",slug:'elijah-s-trailer-rentals',industry:'Transportation',type:'Landing Page'},
+  {name:'Roadside Pro Towing',slug:'roadside-pro-towing',industry:'Towing',type:'Landing Page'},
+  {name:'Ava Towing',slug:'ava-towing',industry:'Towing',type:'Landing Page'},
   {name:'Octavio Roofing',slug:'octavio-roofing-landing-page',industry:'Roofing',type:'Landing Page'},
-  {name:'H Towing',slug:'htowing',industry:'Towing'},
-  {name:'JM Towing',slug:'jm-towing-overview',industry:'Towing'},
-  {name:'SNF Towing',slug:'snf-towing',industry:'Towing'},
-  {name:'Heffe Towing',slug:'heffe-towing',industry:'Towing'},
-  {name:'ARC Transport',slug:'arc-transport',industry:'Towing'},
-  {name:'Kissimmee Towing Company',slug:'kissimmee-towing-company',industry:'Towing'},
-  {name:'Jax Discount Towing',slug:'jax-discount-towing',industry:'Towing'},
-  {name:'CMW Transport',slug:'cmw-transport',industry:'Towing'},
-  {name:'GB Tows',slug:'gb-tows',industry:'Towing'},
-  {name:'Vermont Auto Collision',slug:'vermont-auto-collision',industry:'Automotive'},
-  {name:'Tokes Towing',slug:'tokes-towing',industry:'Towing'},
-  {name:"April's Pet Grooming",slug:'april-s-pet-grooming',industry:'Pet Care'}
+  {name:'H Towing',slug:'htowing',industry:'Towing',type:'Landing Page'},
+  {name:'JM Towing',slug:'jm-towing-overview',industry:'Towing',type:'Landing Page'},
+  {name:'SNF Towing',slug:'snf-towing',industry:'Towing',type:'Landing Page'},
+  {name:'Heffe Towing',slug:'heffe-towing',industry:'Towing',type:'Landing Page'},
+  {name:'ARC Transport',slug:'arc-transport',industry:'Towing',type:'Landing Page'},
+  {name:'Kissimmee Towing Company',slug:'kissimmee-towing-company',industry:'Towing',type:'Landing Page'},
+  {name:'Jax Discount Towing',slug:'jax-discount-towing',industry:'Towing',type:'Landing Page'},
+  {name:'CMW Transport',slug:'cmw-transport',industry:'Towing',type:'Landing Page'},
+  {name:'GB Tows',slug:'gb-tows',industry:'Towing',type:'Landing Page'},
+  {name:'Vermont Auto Collision',slug:'vermont-auto-collision',industry:'Automotive',type:'Landing Page'},
+  {name:'Tokes Towing',slug:'tokes-towing',industry:'Towing',type:'Landing Page'},
+  {name:"April's Pet Grooming",slug:'april-s-pet-grooming',industry:'Pet Care',type:'Landing Page'}
 ].map((p,i)=>({...p,type:p.type||'Website',url:`https://${p.slug}.vercel.app`,order:i}));
 
 const grid=document.getElementById('grid');
