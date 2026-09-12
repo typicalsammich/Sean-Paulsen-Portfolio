@@ -57,13 +57,17 @@
     .stat span{display:block;font-size:12px;color:var(--muted);margin-top:4px}
     .controls-wrap{position:sticky;top:66px;z-index:25;padding:14px 0;background:linear-gradient(180deg,rgba(5,8,6,.97),rgba(5,8,6,.90));backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.055)}
     .controls{display:grid;grid-template-columns:minmax(250px,1fr) auto;gap:12px;align-items:center}
+    .filter-row{display:flex;align-items:center;gap:10px;overflow:auto;padding:14px 0 1px;scrollbar-width:none}
+    .filter-row::-webkit-scrollbar{display:none}
+    .filter-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#617066;white-space:nowrap;margin-right:2px}
+    .type-filters{display:flex;gap:7px;flex:none;padding-right:14px;margin-right:4px;border-right:1px solid rgba(255,255,255,.07)}
     .searchbox{height:48px;display:flex;align-items:center;gap:10px;background:#0a0f0c;border:1px solid var(--line);border-radius:13px;padding:0 15px;transition:.2s ease}
     .searchbox:focus-within{border-color:rgba(93,255,149,.36);box-shadow:0 0 0 3px rgba(93,255,149,.06)}
     .searchbox svg{width:18px;color:#809087;flex:none}
     .searchbox input{width:100%;border:0;outline:0;background:transparent;color:white;font-size:14px}
     .searchbox input::placeholder{color:#647069}
     .sort{height:48px;background:#0a0f0c;color:#cfd7d1;border:1px solid var(--line);border-radius:13px;padding:0 36px 0 14px;outline:0;cursor:pointer}
-    .filters{display:flex;gap:8px;overflow:auto;padding:14px 0 1px;scrollbar-width:none}
+    .filters{display:flex;gap:8px;overflow:visible;padding:0;scrollbar-width:none}
     .filters::-webkit-scrollbar{display:none}
     .chip{white-space:nowrap;border:1px solid var(--line);background:#0a0f0c;color:#a5b1a8;border-radius:999px;padding:9px 13px;font-size:12px;font-weight:600;cursor:pointer;transition:.18s ease}
     .chip:hover{border-color:rgba(93,255,149,.25);color:#e8eee9}
@@ -88,6 +92,9 @@
     .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
     .card h3{font-size:16px;letter-spacing:-.025em;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .category{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--green);font-weight:800;border:1px solid rgba(93,255,149,.16);background:rgba(93,255,149,.055);padding:5px 7px;border-radius:7px;flex:none}
+    .tags{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .type-badge{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#d7e0da;font-weight:800;border:1px solid rgba(255,255,255,.10);background:#111713;padding:5px 7px;border-radius:7px;flex:none}
+    .type-badge.landing{color:#06110a;background:var(--green);border-color:var(--green)}
     .domain{display:block;margin-top:7px;color:#748078;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}
     .actions{display:flex;gap:8px;margin-top:15px}
     .btn{height:38px;border-radius:10px;border:1px solid var(--line);background:#0d140f;color:#dbe2dc;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 11px;text-decoration:none;font-size:12px;font-weight:700;cursor:pointer;transition:.18s ease}
@@ -99,9 +106,8 @@
     .empty strong{display:block;color:#dde4de;margin-bottom:8px}
     footer{border-top:1px solid rgba(255,255,255,.07);padding:24px 0 34px;color:#667169;font-size:12px}
     .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
-    .vaa{display:inline-flex;align-items:center;gap:8px;color:#9aa69d}
-    .vaa-mark{width:16px;height:16px;display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
-    .vaa-mark i{display:block;background:#2ea8ff;border-radius:2px}
+    .vaa{display:inline-flex;align-items:center;gap:9px;color:#9aa69d;font-weight:600}
+    .vaa-logo{width:25px;height:25px;object-fit:contain;display:block;filter:drop-shadow(0 0 10px rgba(45,190,240,.10))}
     .modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(2,4,3,.82);backdrop-filter:blur(16px)}
     .modal.open{display:flex}
     .modal-panel{width:min(1500px,100%);height:min(900px,94vh);background:#0a0f0c;border:1px solid rgba(255,255,255,.13);border-radius:18px;overflow:hidden;box-shadow:0 35px 120px rgba(0,0,0,.58);display:flex;flex-direction:column}
@@ -158,7 +164,12 @@
           <option value="industry">Industry</option>
         </select>
       </div>
-      <div id="filters" class="filters" aria-label="Industry filters"></div>
+      <div class="filter-row">
+        <span class="filter-label">Type</span>
+        <div id="typeFilters" class="type-filters" aria-label="Project type filters"></div>
+        <span class="filter-label">Industry</span>
+        <div id="filters" class="filters" aria-label="Industry filters"></div>
+      </div>
     </div>
   </section>
 
@@ -174,7 +185,7 @@
   <footer>
     <div class="shell footer-inner">
       <span>Portfolio of live web projects.</span>
-      <span class="vaa"><span class="vaa-mark"><i></i><i></i><i></i><i></i></span>VirtualAgentAI</span>
+      <span class="vaa"><img class="vaa-logo" src="virtualagentai-logo.png" alt="VirtualAgentAI logo">VirtualAgentAI</span>
     </div>
   </footer>
 
@@ -195,7 +206,7 @@
 const projects = [
   {name:'Skyline Towing',slug:'skyline-towing',industry:'Towing'},
   {name:'IE Towing Solutions',slug:'ietowingsolutions',industry:'Towing'},
-  {name:'Marcell Smith Website',slug:'marcell-smith-website',industry:'Other'},
+  {name:'Marcell Smith Website',slug:'marcell-smith-website',industry:'Automotive'},
   {name:'Coco Towing',slug:'coco-towing',industry:'Towing'},
   {name:'F.O. Towing',slug:'f-o-towing',industry:'Towing'},
   {name:'Abi Towing',slug:'abi-towing',industry:'Towing'},
@@ -205,13 +216,13 @@ const projects = [
   {name:'ZAH Junk Cars',slug:'zah-junkcars',industry:'Automotive'},
   {name:'DJ Towing',slug:'dj-towing',industry:'Towing'},
   {name:'Virtual Agent AI',slug:'virtual-agent-ai',industry:'AI / SaaS'},
-  {name:'Missed Revenue Calculator',slug:'missed-revenue-calculator-ten',industry:'AI / SaaS'},
+  {name:'Missed Revenue Calculator',slug:'missed-revenue-calculator-ten',industry:'AI / SaaS',type:'Landing Page'},
   {name:'CCS 247',slug:'ccs-247',industry:'Other'},
-  {name:'Drea Salazar',slug:'drea-salazar',industry:'Other'},
-  {name:'Jean Samuel',slug:'jeansamuel',industry:'Other'},
+  {name:'Drea Salazar',slug:'drea-salazar',industry:'Real Estate'},
+  {name:'Jean Samuel',slug:'jeansamuel',industry:'Real Estate'},
   {name:'Heritage Peak Roofing',slug:'heritage-peak-roofing-cx6e',industry:'Roofing'},
   {name:'DK Plumbing',slug:'dkplumbing-gray',industry:'Plumbing'},
-  {name:'Mike Davis',slug:'mike-davis',industry:'Other'},
+  {name:'Mike Davis',slug:'mike-davis',industry:'Mortgage'},
   {name:"Greg's Realtor Site",slug:'gregs-realtor-site',industry:'Real Estate'},
   {name:"Miguel's Tree Service",slug:'miguels-tree-service',industry:'Tree Service'},
   {name:'C&D Auto Repair',slug:'c-d-auto-repair',industry:'Automotive'},
@@ -222,29 +233,30 @@ const projects = [
   {name:'Haul Craft Towing',slug:'haul-craft-towing',industry:'Towing'},
   {name:'Holy 7 Towing',slug:'holy-7-towing',industry:'Towing'},
   {name:'Trend Collision Center',slug:'trend-collsion-center',industry:'Automotive'},
-  {name:'Eastwood 6.0',slug:'eastwood6-0',industry:'Other'},
+  {name:'Eastwood 6.0',slug:'eastwood6-0',industry:'Towing'},
   {name:"Elijah's Trailer Rentals",slug:'elijah-s-trailer-rentals',industry:'Transportation'},
   {name:'Roadside Pro Towing',slug:'roadside-pro-towing',industry:'Towing'},
   {name:'Ava Towing',slug:'ava-towing',industry:'Towing'},
-  {name:'Octavio Roofing',slug:'octavio-roofing-landing-page',industry:'Roofing'},
+  {name:'Octavio Roofing',slug:'octavio-roofing-landing-page',industry:'Roofing',type:'Landing Page'},
   {name:'H Towing',slug:'htowing',industry:'Towing'},
   {name:'JM Towing',slug:'jm-towing-overview',industry:'Towing'},
   {name:'SNF Towing',slug:'snf-towing',industry:'Towing'},
   {name:'Heffe Towing',slug:'heffe-towing',industry:'Towing'},
-  {name:'ARC Transport',slug:'arc-transport',industry:'Transportation'},
+  {name:'ARC Transport',slug:'arc-transport',industry:'Towing'},
   {name:'Kissimmee Towing Company',slug:'kissimmee-towing-company',industry:'Towing'},
   {name:'Jax Discount Towing',slug:'jax-discount-towing',industry:'Towing'},
-  {name:'CMW Transport',slug:'cmw-transport',industry:'Transportation'},
+  {name:'CMW Transport',slug:'cmw-transport',industry:'Towing'},
   {name:'GB Tows',slug:'gb-tows',industry:'Towing'},
   {name:'Vermont Auto Collision',slug:'vermont-auto-collision',industry:'Automotive'},
   {name:'Tokes Towing',slug:'tokes-towing',industry:'Towing'},
   {name:"April's Pet Grooming",slug:'april-s-pet-grooming',industry:'Pet Care'}
-].map((p,i)=>({...p,url:`https://${p.slug}.vercel.app`,order:i}));
+].map((p,i)=>({...p,type:p.type||'Website',url:`https://${p.slug}.vercel.app`,order:i}));
 
 const grid=document.getElementById('grid');
 const search=document.getElementById('search');
 const sort=document.getElementById('sort');
 const filters=document.getElementById('filters');
+const typeFilters=document.getElementById('typeFilters');
 const empty=document.getElementById('empty');
 const resultCount=document.getElementById('resultCount');
 const modal=document.getElementById('modal');
@@ -253,6 +265,7 @@ const modalName=document.getElementById('modalName');
 const modalDomain=document.getElementById('modalDomain');
 const modalOpen=document.getElementById('modalOpen');
 let activeIndustry='All';
+let activeType='All';
 let observer;
 
 const industries=['All',...Array.from(new Set(projects.map(p=>p.industry))).sort((a,b)=>a.localeCompare(b))];
@@ -262,6 +275,13 @@ actionIcon=`<svg viewBox="0 0 24 24" fill="none"><path d="M14 5h5v5m0-5-9 9" str
 
 eyeIcon=`<svg viewBox="0 0 24 24" fill="none"><path d="M2.5 12s3.3-6 9.5-6 9.5 6 9.5 6-3.3 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.7"/></svg>`;
 
+const projectTypes=['All','Website','Landing Page'];
+
+function buildTypeFilters(){
+  typeFilters.innerHTML=projectTypes.map(type=>`<button class="chip ${type==='All'?'active':''}" data-type="${type}">${type}${type==='All'?'':` · ${projects.filter(p=>p.type===type).length}`}</button>`).join('');
+  typeFilters.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;activeType=b.dataset.type;typeFilters.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x===b));render();});
+}
+
 function buildFilters(){
   filters.innerHTML=industries.map(ind=>`<button class="chip ${ind==='All'?'active':''}" data-industry="${ind}">${ind}${ind==='All'?'':` · ${projects.filter(p=>p.industry===ind).length}`}</button>`).join('');
   filters.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;activeIndustry=b.dataset.industry;filters.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x===b));render();});
@@ -269,7 +289,7 @@ function buildFilters(){
 
 function filtered(){
   const q=search.value.trim().toLowerCase();
-  let out=projects.filter(p=>(activeIndustry==='All'||p.industry===activeIndustry)&&(!q||`${p.name} ${p.industry} ${p.slug}`.toLowerCase().includes(q)));
+  let out=projects.filter(p=>(activeIndustry==='All'||p.industry===activeIndustry)&&(activeType==='All'||p.type===activeType)&&(!q||`${p.name} ${p.industry} ${p.type} ${p.slug}`.toLowerCase().includes(q)));
   if(sort.value==='az')out.sort((a,b)=>a.name.localeCompare(b.name));
   if(sort.value==='za')out.sort((a,b)=>b.name.localeCompare(a.name));
   if(sort.value==='industry')out.sort((a,b)=>a.industry.localeCompare(b.industry)||a.name.localeCompare(b.name));
@@ -289,7 +309,7 @@ function render(){
       <span class="hover-open">View project ↗</span>
     </div>
     <div class="card-body">
-      <div class="card-top"><h3 title="${p.name}">${p.name}</h3><span class="category">${p.industry}</span></div>
+      <div class="card-top"><h3 title="${p.name}">${p.name}</h3><div class="tags"><span class="category">${p.industry}</span>${p.type==='Landing Page'?'<span class="type-badge landing">Landing Page</span>':'<span class="type-badge">Website</span>'}</div></div>
       <a class="domain" href="${p.url}" target="_blank" rel="noopener">${p.slug}.vercel.app</a>
       <div class="actions">
         <button class="btn primary js-preview" data-url="${p.url}" data-name="${p.name}">${eyeIcon} Preview</button>
@@ -336,7 +356,7 @@ document.getElementById('modalClose').addEventListener('click',closePreview);
 modal.addEventListener('click',e=>{if(e.target===modal)closePreview()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closePreview()});
 
-buildFilters();render();
+buildTypeFilters();buildFilters();render();
 </script>
 </body>
 </html>
