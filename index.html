@@ -148,12 +148,12 @@
       .modal{padding:0}.modal-panel{width:100%;height:100%;max-height:none;border-radius:0;border:0}.modal-title span{max-width:170px}
       .mobile-scrollbar{display:block;position:fixed;right:2px;top:6px;bottom:6px;width:3px;z-index:9999;pointer-events:none}
       .mobile-scroll-thumb{position:absolute;right:0;top:0;width:3px;min-height:28px;border-radius:999px;background:linear-gradient(180deg,var(--green),var(--green-2));box-shadow:0 0 8px rgba(93,255,149,.35);opacity:.88;will-change:transform,height}
-      .preview.mobile-lightweight{background:radial-gradient(520px 180px at 15% 0%,rgba(93,255,149,.10),transparent 55%),linear-gradient(135deg,#0a100c,#07100a 60%,#09130c)}
+      .preview.mobile-lightweight{background:#080d09}
       .preview.mobile-lightweight .preview-frame{display:none}
-      .preview.mobile-lightweight .preview-loading{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px;padding:22px;background:transparent;color:#b6c1b9;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
-      .preview.mobile-lightweight .preview-loading:before{display:none}
-      .preview.mobile-lightweight .preview-loading strong{font-size:22px;line-height:1.05;letter-spacing:-.035em;text-transform:none;color:#f5f7f5}
-      .preview.mobile-lightweight .preview-loading span{color:#738078;text-transform:none;letter-spacing:0;font-size:12px}
+      .preview.mobile-lightweight .preview-loading{display:none}
+      .mobile-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;display:block;background:#0a0f0c;opacity:0;transition:opacity .25s ease}
+      .mobile-thumb.loaded{opacity:1}
+      .mobile-thumb-fallback{position:absolute;inset:0;display:flex;align-items:flex-end;padding:20px;background:radial-gradient(520px 180px at 15% 0%,rgba(93,255,149,.10),transparent 55%),linear-gradient(135deg,#0a100c,#07100a 60%,#09130c);color:#f5f7f5;font-size:18px;font-weight:800;letter-spacing:-.02em}
     }
   </style>
 </head>
@@ -334,8 +334,7 @@ function render(){
   empty.style.display=list.length?'none':'block';
   grid.innerHTML=list.map(p=>`<article class="card">
     <div class="preview ${isMobile?'mobile-lightweight':''}" data-preview="${p.url}" data-name="${p.name}">
-      <div class="preview-loading">${isMobile?`<strong>${p.name}</strong><span>Tap to load live preview</span>`:'Loading live preview'}</div>
-      <iframe class="preview-frame" title="${p.name} preview" loading="lazy" tabindex="-1"></iframe>
+      ${isMobile?`<div class="mobile-thumb-fallback">${p.name}</div><img class="mobile-thumb" src="https://image.thum.io/get/width/1200/crop/700/noanimate/${p.url}" alt="${p.name} website preview" loading="lazy" decoding="async" onload="this.classList.add('loaded')" onerror="this.style.display='none'">`:`<div class="preview-loading">Loading live preview</div><iframe class="preview-frame" title="${p.name} preview" loading="lazy" tabindex="-1"></iframe>`}
       <span class="hover-open">View project ↗</span>
     </div>
     <div class="card-body">
