@@ -166,7 +166,7 @@
 <body>
   <header class="topbar">
     <div class="shell topbar-inner">
-      <a class="brand" href="#top" aria-label="Sean Paulsen’s Portfolio home"><img class="brand-logo" src="virtualagentai-logo.png" alt="VirtualAgentAI logo"><span>Sean Paulsen’s Portfolio</span></a>
+      <a class="brand" href="#top" aria-label="Sean Paulsen’s Portfolio home"><span>Sean Paulsen’s Portfolio</span></a>
       <div class="top-meta"><span class="live-dot"></span><span>Live projects</span></div>
     </div>
   </header>
@@ -197,10 +197,6 @@
           <option value="industry">Industry</option>
         </select>
       </div>
-      <div id="portfolioTabs" class="portfolio-tabs" aria-label="Portfolio views">
-        <button class="portfolio-tab active" data-view="all">All Projects</button>
-        <button class="portfolio-tab premium" data-view="premium">Premium Sites</button>
-      </div>
       <div class="filter-row">
         <span class="filter-label">Type</span>
         <div id="typeFilters" class="type-filters" aria-label="Project type filters"></div>
@@ -222,7 +218,7 @@
   <footer>
     <div class="shell footer-inner">
       <span>Portfolio of live web projects.</span>
-      <span class="vaa"><img class="vaa-logo" src="virtualagentai-logo.png" alt="VirtualAgentAI logo">VirtualAgentAI</span>
+
     </div>
   </footer>
 
@@ -326,7 +322,6 @@ const search=document.getElementById('search');
 const sort=document.getElementById('sort');
 const filters=document.getElementById('filters');
 const typeFilters=document.getElementById('typeFilters');
-const portfolioTabs=document.getElementById('portfolioTabs');
 const empty=document.getElementById('empty');
 const resultCount=document.getElementById('resultCount');
 const modal=document.getElementById('modal');
@@ -336,7 +331,6 @@ const modalDomain=document.getElementById('modalDomain');
 const modalOpen=document.getElementById('modalOpen');
 let activeIndustry='All';
 let activeType='All';
-let activeView='all';
 let observer;
 
 const industries=['All',...Array.from(new Set(projects.map(p=>p.industry))).sort((a,b)=>a.localeCompare(b))];
@@ -347,19 +341,13 @@ actionIcon=`<svg viewBox="0 0 24 24" fill="none"><path d="M14 5h5v5m0-5-9 9" str
 
 eyeIcon=`<svg viewBox="0 0 24 24" fill="none"><path d="M2.5 12s3.3-6 9.5-6 9.5 6 9.5 6-3.3 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.7"/></svg>`;
 
-const projectTypes=['All','Website','Landing Page'];
+const projectTypes=['All','Website','Landing Page','Premium'];
 
 
-portfolioTabs.addEventListener('click',e=>{
-  const b=e.target.closest('.portfolio-tab');
-  if(!b)return;
-  activeView=b.dataset.view;
-  portfolioTabs.querySelectorAll('.portfolio-tab').forEach(x=>x.classList.toggle('active',x===b));
-  render();
-});
+
 
 function buildTypeFilters(){
-  typeFilters.innerHTML=projectTypes.map(type=>`<button class="chip ${type==='All'?'active':''}" data-type="${type}">${type}${type==='All'?'':` · ${projects.filter(p=>p.type===type).length}`}</button>`).join('');
+  typeFilters.innerHTML=projectTypes.map(type=>{const count=type==='Premium'?projects.filter(p=>p.premium).length:projects.filter(p=>p.type===type).length;return `<button class="chip ${type==='All'?'active':''}" data-type="${type}">${type}${type==='All'?'':` · ${count}`}</button>`}).join('');
   typeFilters.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;activeType=b.dataset.type;typeFilters.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x===b));render();});
 }
 
@@ -370,7 +358,7 @@ function buildFilters(){
 
 function filtered(){
   const q=search.value.trim().toLowerCase();
-  let out=projects.filter(p=>(activeView==='all'||p.premium===true)&&(activeIndustry==='All'||p.industry===activeIndustry)&&(activeType==='All'||p.type===activeType)&&(!q||`${p.name} ${p.industry} ${p.type} ${p.slug}`.toLowerCase().includes(q)));
+  let out=projects.filter(p=>(activeIndustry==='All'||p.industry===activeIndustry)&&(activeType==='All'||(activeType==='Premium'?p.premium===true:p.type===activeType))&&(!q||`${p.name} ${p.industry} ${p.type} ${p.slug}`.toLowerCase().includes(q)));
   if(sort.value==='az')out.sort((a,b)=>a.name.localeCompare(b.name));
   if(sort.value==='za')out.sort((a,b)=>b.name.localeCompare(a.name));
   if(sort.value==='industry')out.sort((a,b)=>a.industry.localeCompare(b.industry)||a.name.localeCompare(b.name));
